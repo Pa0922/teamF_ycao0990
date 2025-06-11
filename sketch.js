@@ -65,7 +65,7 @@ function styleButton(btn) {
 }
 
 function drawBackground() {
-  background(199, 244, 255); // 整体背景填充（外部）
+  background(199, 244, 255); // Outer Overall Background Fill
 
   let bgX = 37;
   let bgY = 35;
@@ -73,25 +73,25 @@ function drawBackground() {
   let bgH = 718;
   let pixelSize = 8;
 
-  // 计算时间 t (0–1), 昼夜周期 60 秒
+  // Calculate time t (0–1), day-night cycle of 60 seconds
   let t = (millis() % 60000) / 60000;
 
-  // 渐变背景颜色
+  // Gradient Background Color
   let colorStops = [
-    color(255, 200, 150),  // 清晨
-    color(199, 244, 255),  // 白天
-    color(255, 150, 120),  // 傍晚
-    color(20, 24, 82),     // 夜晚
-    color(255, 200, 150)   // 清晨
+    color(255, 200, 150),  // Early Morning
+    color(199, 244, 255),  // Daytime
+    color(255, 150, 120),  // Evening
+    color(20, 24, 82),     // Midnight
+    color(255, 200, 150)   // Early Morning
   ];
   let index = floor(t * (colorStops.length - 1));
   let lerpT = (t * (colorStops.length - 1)) % 1;
   let bgTop = lerpColor(colorStops[index], colorStops[index + 1], lerpT);
 
-  // 判断当前是否是夜晚
+  // Check if it is currently night
   let isNight = t > 0.65 || t < 0.15;
 
-  // 像素风格背景绘制（渐变）
+  // Pixel-style Gradient Background Rendering
   for (let y = bgY; y < bgY + bgH; y += pixelSize) {
     for (let x = bgX; x < bgX + bgW; x += pixelSize) {
       let yRatio = (y - bgY) / bgH;
@@ -102,7 +102,7 @@ function drawBackground() {
     }
   }
 
-  // ☀️ Draw sun (像素风格太阳)
+  // Draw sun 
   if (!isNight) {
     let sunX = map(t, 0, 1, bgX, bgX + bgW);
     let sunY = bgY + 150 + sin(t * TWO_PI) * 50;
@@ -110,14 +110,14 @@ function drawBackground() {
     sunY = floor(sunY / pixelSize) * pixelSize;
 
     fill(255, 204, 0);
-    // 中心圆（3x3）
+    // Central Circle
     for (let y = -1; y <= 1; y++) {
       for (let x = -1; x <= 1; x++) {
         rect(sunX + x * pixelSize, sunY + y * pixelSize, pixelSize, pixelSize);
       }
     }
 
-    // 光线（8方向）
+    // Light Rays
     for (let i = 0; i < 8; i++) {
       let angle = i * PI / 4;
       let dx = round(cos(angle)) * 2 * pixelSize;
@@ -126,14 +126,14 @@ function drawBackground() {
     }
   }
 
-  // 🌙 Draw moon (像素风格弯月)
+  //  Draw moon 
   if (isNight) {
     let moonX = map(t, 0, 1, bgX + bgW, bgX);
     let moonY = bgY + 150 + cos(t * TWO_PI) * 40;
     moonX = floor(moonX / pixelSize) * pixelSize;
     moonY = floor(moonY / pixelSize) * pixelSize;
 
-    // 主体月亮形状
+    // Main Moon Shape
     fill(255, 230, 150);
     let moonPattern = [
       "00110",
@@ -150,7 +150,7 @@ function drawBackground() {
       }
     }
 
-    // 阴影遮挡，形成月牙
+    // Shadow Occlusion to Form Crescent
     fill(20, 24, 82);
     let maskPattern = [
       "00010",
@@ -168,7 +168,7 @@ function drawBackground() {
     }
   }
 
-  // ☁️ Draw clouds (white, pixel-style)
+  // Draw clouds 
   if (!isNight) {
     let cloudY = bgY + 100;
     for (let i = 0; i < 2; i++) {
@@ -180,9 +180,9 @@ function drawBackground() {
     }
   }
 
-  // ✨ Draw stars (if night)
+  // Draw stars 
   if (isNight) {
-    randomSeed(99); // 固定星星分布
+    randomSeed(99); 
     for (let i = 0; i < 40; i++) {
       let starX = floor(random(bgX, bgX + bgW) / pixelSize) * pixelSize;
       let starY = floor(random(bgY, bgY + 300) / pixelSize) * pixelSize;
@@ -192,7 +192,7 @@ function drawBackground() {
     }
   }
 
-  // 🌱 地面 & 树底
+  
   push();
   translate(width / 2, height / 2 + 200);
   fill('#65C18D');
@@ -401,5 +401,7 @@ function draw() {
   }
   pop();
 }
+ 
+ 
  
  
